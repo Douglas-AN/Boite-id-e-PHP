@@ -14,12 +14,12 @@ if (isset($_POST['edit']) && !empty($_POST)) {
 ?>
 <h1>Editer votre idée</h1>
 <?php
-if (isset($_GET["id"]) && isset($_SESSION['pseudo'])) {
+if (isset($_GET["id"]) && isset($_SESSION['id'])) {
     foreach ($App->TabIdea as $index => $objIdea) {
         if ($index == $_GET["id"]) {
 ?>
             <form method="post" id="form-edit" class="contain-card">
-                <p><?php echo $_SESSION['pseudo']; ?></p>
+                <p><?php echo $_SESSION['prenom']; $_SESSION['nom']; ?></p>
                 <p><?php echo $objIdea->Date ?></p>
                 <div class="form-group">
                     <label>Titre de l'idée</label>

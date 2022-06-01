@@ -18,7 +18,7 @@ if (isset($_GET["id"])) {
                     <p class="card-text"><small class="text-muted"></small></p>
                 </div>
                 <?php
-                if (isset($_SESSION['pseudo'])) {
+                if (isset($_SESSION['id'])) {
                 ?>
                     <a href="editIdea.php?idea=<?php echo $index ?>" class="editIdea card-link">Editer</a>
                     <a href="removeIdea.php?idea=<?php echo $index ?>" class="removeIdea card-link">Retirer</a>

@@ -5,7 +5,7 @@ include 'header.php';
 
 <h1>Boite à idée</h1>
 
-<form id="form-auth" method="post">
+<form id="form-auth" method="post" action="login.php">
     <h3 align="center">Se connecter</h3>
     <br />
     <?php //echo $error; 
@@ -40,11 +40,11 @@ include 'header.php';
                 </div>
                 <ul class="list-group list-group-flush">
                     <?php
-                    if (isset($_SESSION['pseudo'])) {
+                    if (isset($_SESSION['id'])) {
                     ?>
                         <li class="list-group-item">
                             <a href="vote.php?id=<?php echo $index ?>">Vote</a>
-                            <svg class="dislike" id="a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203.6 213.2" style="cursor: pointer;">
+                            <svg class="dislike" data-value="-1" id="a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203.6 213.2" style="cursor: pointer;">
                                 <defs>
                                     <style>
                                         .b,
@@ -65,7 +65,7 @@ include 'header.php';
                                     <path class="c" d="M40.87,74.76H13.97c-7.18,0-12.97,5.94-12.97,13.17v111.21c0,7.22,5.8,13.06,12.97,13.06h26.9c7.18,0,13.07-5.92,13.07-13.06V87.93c0-7.23-5.89-13.17-13.07-13.17Zm-13.25,118.79c-6.19,0-11.22-5.06-11.22-11.3s5.01-11.3,11.22-11.3,11.22,5.15,11.22,11.3-5.03,11.3-11.22,11.3Z" />
                                 </g>
                             </svg>
-                            <svg class="like" id="a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203.6 213.2" style="cursor: pointer;">
+                            <svg class="like" data-value="1" id="a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203.6 213.2" style="cursor: pointer;">
                                 <defs>
                                     <style>
                                         .b,
@@ -95,7 +95,7 @@ include 'header.php';
                     <a href="idea.php?id=<?php echo $index ?>" class="card-link">Voir l'idée</a>
                 </div>
                 <?php
-                if (isset($_SESSION['pseudo'])) {
+                if (isset($_SESSION['id'])) {
                 ?>
                     <a href="editIdea.php?id=<?php echo $index ?>" class="editIdea card-link">Editer</a>
                     <a href="removeIdea.php?id=<?php echo $index ?>" class="removeIdea card-link">Retirer</a>
@@ -110,7 +110,43 @@ include 'header.php';
     <!-- <button id="see-more" type="button" class="btn btn-outline-secondary">Voir plus</button> -->
 </div>
 
-
+<script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    if (getCookie("id").length > 0) {
+        fetch("app.json")
+            .then(response => {
+                return response.json();
+            })
+            .then(jsondata => {
+                jsondata.TabIdea.forEach(function(value, i) {
+                    if (value.UserVote) {
+                        let index = i;
+                        value.UserVote.forEach(e => {
+                            if (e[0] == getCookie("id")) {
+                                let valueLike = e[1];
+                                let cardId = "#idea" + index + "";
+                                let svgCible;
+                                switch (valueLike) {
+                                    case '1':
+                                        svgCible = document.querySelector("" + cardId + " .like");
+                                        break;
+                                    case '-1':
+                                        svgCible = document.querySelector("" + cardId + " .dislike");
+                                        break;
+                                }
+                                let svg = svgCible.querySelector('.c');
+                                svg.classList.add("active");
+                            }
+                        })
+                    }
+                });
+            });
+    }
+</script>
 
 
 <?php

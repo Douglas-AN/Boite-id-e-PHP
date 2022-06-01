@@ -1,6 +1,8 @@
 <?php
-include 'login.php';
+// include 'login.php';
 include 'class.php';
+
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +36,7 @@ include 'class.php';
   <div class="container-xl">
     <div class="button-container">
       <?php
-      if (isset($_SESSION["prenom"])) {
+      if (isset($_SESSION["id"])) {
       ?>
         <button id="addIdea" type="button" class="btn btn-outline-primary">Ajouter une idée</button>
         <button id="myIdea" type="button" class="btn btn-outline-primary">Mes idées</button>

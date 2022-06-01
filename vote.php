@@ -1,31 +1,23 @@
 <?php
 include 'header.php';
 
-if (isset($_GET['id']) && isset($_SESSION['pseudo'])) {
-    $update = "";
-    $row = 1;
-    //on stocke en variable le séparateur de csv utilisé
-    $separator = ",";
-
-    if (($handle = fopen("idea.csv", "r")) !== FALSE) {
-        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $num = count($data);
-            $row++;
-            if ($data[0] == $_GET["id"]) {
-                array_push($data[5], $_SESSION["pseudo"]);
-                echo $data[5];
+if (isset($_GET['id']) && isset($_SESSION['id'])) {
+    
+    if ($App->TabIdea[$_GET["id"]]->UserVote == NULL) {
+        header('Location: home.php');
+    } else 
+    if (in_array($_SESSION["id"], $App->TabIdea[$_GET["id"]]->UserVote[0])) {
+        foreach ($App->TabIdea[$_GET["id"]]->UserVote as $key => $value) {
+            if ($value[0] == $_SESSION["id"] && $value[1] != $_GET["like"]) {
+                $App->TabIdea[$_GET["id"]]->UserVote[$key][1] = $_GET["like"];
             }
-            $update .= implode($separator, $data) . "\r\n";
         }
-        fclose($handle);
+    } else {
+        $tabVote = array($_SESSION["id"], $_GET["like"]);
+        array_push($App->TabIdea[$_GET["id"]]->UserVote, $tabVote);
     }
-    //on ouvre le fichier en ecriture et on le met à jour
-    $ouvre = fopen("idea.csv", "w+");
-    fwrite($ouvre, $update);
-    fclose($ouvre);
-
-    //header('Location: home.php');
+    $App->SaveJson();
+    header('Location: home.php');
 }
 
 include 'footer.php';
-?>

@@ -2,6 +2,18 @@
 include 'header.php';
 
 //session_start();
+function uniqidReal($lenght = 13) {
+    // uniqid gives 13 chars, but you could adjust it to your needs.
+    if (function_exists("random_bytes")) {
+        $bytes = random_bytes(ceil($lenght / 2));
+    } elseif (function_exists("openssl_random_pseudo_bytes")) {
+        $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+    } else {
+        throw new Exception("no cryptographically secure random function available");
+    }
+    return substr(bin2hex($bytes), 0, $lenght);
+}
+
 
 $error = '';
 $nom = '';
@@ -9,6 +21,7 @@ $prenom = '';
 $pseudo = '';
 $mdp = '';
 $mdp_confirm = '';
+$id = uniqidReal();
 
 function clean_text($string)
 {
@@ -41,9 +54,9 @@ if (isset($_POST["submit"])) {
         $error .= '<p><label class="text-danger">Le mot de passe est obligatoire</label></p>';
     } else {
         $mdp = clean_text($_POST["mdp"]);
-        if (!preg_match("", $mdp)) {
-            $error .= '<p><label class="text-danger">Mot de passe non conforme</label></p>';
-        }
+        // if (!preg_match("", $mdp)) {
+        //     $error .= '<p><label class="text-danger">Mot de passe non conforme</label></p>';
+        // }
     }
     if (empty($_POST["mdp_confirm"]))
     {
@@ -56,34 +69,20 @@ if (isset($_POST["submit"])) {
         $error .= '<p><label class="text-danger">Les mots de passes sont différents</label></p>';
     }
 
-    if ($error == '') {
-        echo "toto";
-        $file_open = fopen("user.csv", "a");
-        if ($file_open === false) {
-            die("Error opening the file user.csv");
-        }
-        $no_rows = count(file("user.csv"));
-        if ($no_rows > 1) {
-            $no_rows = ($no_rows - 1) + 1;
-        }
-        $mdp = password_hash($mdp, PASSWORD_DEFAULT);
-        $form_data = array(
-            'id'  => $no_rows,
-            'nom'  => $nom,
-            'prenom'  => $prenom,
-            'pseudo' => $pseudo,
-            'mdp' => $mdp
-        );
-        fputcsv($file_open, $form_data);
-        $error = '<label class="text-success">Thank you for contacting us</label>';
-        $nom = '';
-        $prenom = '';
-        $pseudo = '';
-        $mdp = '';
-        $mdp_confirm = '';
-        $id_session = session_id();
-    }
-    //header('Location: home.php');
+    $mdp_confirm = password_hash($mdp_confirm, PASSWORD_DEFAULT);
+
+    $objUser = new User();
+    $objUser->Nom = $nom;
+    $objUser->Prenom = $prenom;
+    $objUser->Pseudo = $pseudo;
+    $objUser->Mdp = $mdp_confirm;
+    $objUser->Id = $id;
+
+    $App->addUser($objUser);
+    $App->SaveJson();
+
+    $id_session = session_id();
+    header('Location: home.php');
 }
 ?>
 <h1 align="center">Créer un compte</h3>

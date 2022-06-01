@@ -1,92 +1,28 @@
 <?php
-session_start();
+include 'header.php';
+
 if (isset($_POST['submitAuth'])) {
     if (isset($_POST['pseudo']) || isset($_POST['mdp'])) {
         $pseudo = $_POST['pseudo'];
         $mdp = $_POST['mdp'];
-        $row = 1;
-        if (($file_open = fopen("user.csv", "r")) !== FALSE) {
-            while (($data = fgetcsv($file_open, 1000, ",")) !== FALSE) {
-                $num = count($data);
-                $row++;
-                $nom = $data[1];
-                $prenom = $data[2];
-                if ($data[3] == $pseudo) {
-                    $comfirm_password = password_verify($mdp, $data[4]);
-                    if ($comfirm_password == true) {
-                        echo 'ok';
-                    } else {
-                        echo 'Votre mot de passe est incorrect';
-                    }
-                } else {
-                    echo "Vous n'êtes pas inscrit.";
-                    header('Location: signup.php');
-                }
+        foreach ($App->TabUser as $index => $objUser) {
+            $mdp_confirm = password_verify($mdp, $objUser->Mdp);
+            if ($objUser->Pseudo == $pseudo && $mdp_confirm == 1) {
+                $sessNom = $objUser->Pseudo;
+                $sessPrenom = $objUser->Prenom;
+                $sessUserId = $objUser->Id;
+                
             }
-            fclose($file_open);
         }
     }
-    if(isset($_POST['remember_me']))
-    {
-        setcookie('pseudo', $pseudo, time()+3600*24, '/', '', true, true);
-        setcookie('mdp', $mdp, time()+3600*24, '/', '', true, true);
-    }
-    $_SESSION['pseudo'] = $pseudo;
-    $_SESSION['prenom'] = $prenom;
-    $_SESSION['nom'] = $nom;
+    $_SESSION['nom'] = $sessNom;
+    $_SESSION['prenom'] = $sessPrenom;
+    $_SESSION['id'] = $sessUserId;
+    setcookie('id', $sessUserId);
+    
     header('Location: home.php');
-}   
 
-// if (!file_exists("user.csv") || !is_readable("user.csv")) {
-//     echo "Erreur fichier";
-// } else {
-//     if (isset($_COOKIE['pseudo']) && isset($_COOKIE['mdp'])) {
-//         echo 'Vous êtes déja identifié <br>';
-//         echo 'Pseudo : '.$_COOKIE['pseudo'].'<br>';
-//         echo 'Mot de passe : '.$_COOKIE['mdp'].'<br>';
-//         //header('Location: auth.php');
-//         //header('Location: home.php');
-//     } else {
-//         if (isset($_POST['submitAuth'])) {
-//             if (isset($_POST['pseudo']) || isset($_POST['mdp'])) {
-//                 $pseudo = $_POST['pseudo'];
-//                 $mdp = $_POST['mdp'];
-//                 $row = 1;
-//                 if (($file_open = fopen("user.csv", "r")) !== FALSE) {
-//                     while (($data = fgetcsv($file_open, 1000, ",")) !== FALSE) {
-//                         $num = count($data);
-//                         $row++;
-//                         $nom = $data[1];
-//                         $prenom = $data[2];
-//                         if ($data[3] == $pseudo) {
-//                             $comfirm_password = password_verify($mdp, $data[4]);
-//                             if ($comfirm_password == true) {
-//                                 echo 'ok';
-//                             } else {
-//                                 echo 'Votre mot de passe est incorrect';
-//                             }
-//                         } else {
-//                             echo "Vous n'êtes pas inscrit.";
-//                             header('Location: signup.php');
-//                         }
-//                     }
-//                     fclose($file_open);
-//                 }
-//             }
-//             if(isset($_POST['remember_me']))
-//             {
-//                 setcookie('pseudo', $pseudo, time()+3600*24, '/', '', true, true);
-//                 setcookie('mdp', $mdp, time()+3600*24, '/', '', true, true);
-//             }
-//             $_SESSION['pseudo'] = $pseudo;
-//             $_SESSION['prenom'] = $prenom;
-//             $_SESSION['nom'] = $nom;
-//             //header('Location: auth.php');
-//             header('Location: home.php');
-//         }   
-//     }
-// }
-
+}
 
 ?>
 <!-- 

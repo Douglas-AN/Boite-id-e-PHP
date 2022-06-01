@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = 'signup.php';
     });
 
-
 })
 
 // Logout
@@ -38,8 +37,15 @@ document.querySelector("#myIdea").addEventListener('click', function () {
 let likes = document.querySelectorAll(".like, .dislike");
 for (let like of likes) {
     like.addEventListener('click', function (event) {
-        let elem = event.target;
-        let child = elem.querySelector('.c');
+        let elemClick = event.target;
+        let like = elemClick.dataset.value;
+        let child = elemClick.querySelector('.c');
+        let cardParent = elemClick.closest('.card');
+
+        let idCard = cardParent.id;
+        let id = idCard.replace('idea', '');
         child.classList.toggle("active");
+
+        document.location.href = "vote.php?id=" + id + "&like=" + like + "";
     })
 }
