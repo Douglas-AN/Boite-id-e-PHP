@@ -1,0 +1,53 @@
+.button-container{
+    width: 12vw;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    position: relative;
+    top: 56px;   
+    margin-left: 0.5em;
+}
+.button-container > * + *{
+    margin-top: 0.5em;
+}
+
+#img-edit{
+    width: 12vw;
+    display: block;
+}
+
+.contain-card{
+    border-radius: 0.5em;
+    padding: 2em;
+    box-shadow: 6px 6px 14px -6px rgba(0,0,0,0.62);
+    margin-bottom: 5em;
+}
+
+#form-edit, #form-signup{
+    display: flow-root;
+}
+
+.like, .dislike{
+    width: 40px;
+    height: 40px;
+}
+
+.like .c{
+    stroke: #00264C;
+}
+
+.like .c.active{
+    fill: #00264C;
+}
+
+.dislike .c{
+    stroke: #e03318;
+}
+
+.dislike .c.active{
+    fill: #e03318;
+}
+
+.dislike{
+    transform: rotate(180deg);
+}
