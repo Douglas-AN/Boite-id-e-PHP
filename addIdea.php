@@ -6,8 +6,9 @@ include 'header.php';
 $error = '';
 $titre = '';
 $description = '';
-$pseudo = '';
+// $pseudo = '';
 $image = '';
+$date = new DateTime();
 
 function clean_text($string)
 {
@@ -37,46 +38,25 @@ if (isset($_POST["submit"])) {
     } else {
         $image = clean_text($_POST["image"]);
     }
-    if (empty($_POST["pseudo"])) {
-        $error .= '<p><label class="text-danger">Vous n\'êtes pas connecté</label></p>';
-    } else {
-        $pseudo = clean_text($_POST["pseudo"]);
-    }
+    // if (empty($_POST["pseudo"])) {
+    //     $error .= '<p><label class="text-danger">Vous n\'êtes pas connecté</label></p>';
+    // } else {
+    //     $pseudo = clean_text($_POST["pseudo"]);
+    // }
+
+    $objIdea = new Idea();
+    $objIdea->Title = $titre;
+    $objIdea->Text = $description;
+    $objIdea->Image = $image;
+    $objIdea->Date = $date;
+
+    $App->addIdea($objIdea);
+    $App->SaveJson();
 
     if ($error == '' || isset($pseudo)) {
-        //$file_open = fopen("idea.csv", "a");
-        //$no_rows = count(file("idea.csv"));
-        //if ($no_rows > 1) {
-        //    $no_rows = ($no_rows - 1) + 1;
-        //}
-
-        $app = new stdClass();
-        echo $app;
-        $app->idea=array( 
-            'id'  => "",
-            'pseudo'  => $pseudo,
-            'titre'  => $titre,
-            'description' => $description,
-            'image' => $image,
-            'vote' => array(),
-        );
-
-        $json = json_encode($app);
-        file_put_contents("data.json", $json);
-
-        $Json = file_get_contents("data.json");
-        $data = json_decode($Json);
-        /*
-        fputcsv($file_open, $form_data);
-        $error = '<label class="text-success">Thank you for contacting us</label>';
-        $pseudo = '';
-        $titre = '';
-        $description = '';
-        $image = '';
-        */
-        $id_session = session_id();
+        //$id_session = session_id();
     }
-    //header('Location: home.php');
+    header('Location: home.php');
 }
 ?>
 
@@ -84,7 +64,7 @@ if (isset($_POST["submit"])) {
 <div class="container">
     <form method="post" id="form-signup" class="contain-card">
         <?php echo $error; ?>
-        <input type="hidden" name="pseudo" value="<?php if (isset($_SESSION['pseudo'])) echo $_SESSION['pseudo']; ?>">
+        <!-- <input type="hidden" name="pseudo" value=""> -->
         <div class="form-group">
             <label>Titre de l'idée</label>
             <input type="text" name="titre" placeholder="Titre" class="form-control" value="<?php echo (isset($_POST['submit'])) ? $titre : ''; ?>" />

@@ -1,5 +1,6 @@
 <?php
 include 'login.php';
+include 'class.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
