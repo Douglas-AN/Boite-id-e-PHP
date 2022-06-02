@@ -1,0 +1,69 @@
+:root {
+	--fs: clamp(1rem, .9rem + .5vw, 4rem); /* Peut varier entre 1rem et 4rem avec un facteur d'elasticité */
+  --fs-x2: calc(var(--fs) * 2);
+  --fs-x1-5: calc(var(--fs) * 1.5);
+  --fs-ratio: 1.618; /*Nombre d'or*/
+  --fs-bigger: calc(var(--fs) * var(--fs-ratio)); /* Calcul de ratio pour avoir quelquechose de smooth entre les éléments, exponentiel */
+  --fs-biggest: calc(var(--fs-bigger) / var(--fs-ratio));
+  --fs-smaller: calc(var(--fs) * var(--fs-ratio));
+  --fs-samllest: calc(var(--fs-smaller) / var(--fs-ratio));
+}
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}

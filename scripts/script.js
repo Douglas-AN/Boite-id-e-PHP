@@ -9,30 +9,29 @@ document.addEventListener("DOMContentLoaded", () => {
             this.style.display = "none";
         });
     }
-    // Signup
+    // Redirecction Signup
     document.querySelector("#signup").addEventListener('click', function () {
         window.location.href = 'signup.php';
     });
 
 })
 
-// Logout
+// Redirection Logout
 document.querySelector("#logout").addEventListener('click', function () {
     window.location.href = 'logout.php';
 });
 
-
-// Add Idea
+// Redirection Add Idea
 document.querySelector("#addIdea").addEventListener('click', function () {
     window.location.href = 'addIdea.php';
 });
 
-// My Idea
+// Redirecction My Idea
 document.querySelector("#myIdea").addEventListener('click', function () {
     window.location.href = 'myIdea.php';
 });
 
-// Like color
+// Gère au click la coloration du svg et renvoyer vers le traitement PHP
 let likes = document.querySelectorAll(".like, .dislike");
 for (let like of likes) {
     like.addEventListener('click', function (event) {

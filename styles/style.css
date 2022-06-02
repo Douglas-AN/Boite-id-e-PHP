@@ -1,61 +1,152 @@
-.navbar{
+/********************* Navbar *********************/
+.navbar {
     position: relative;
     top: 0;
     width: 100vw;
     background-color: #212529;
+    height: 7vh;
+    font-size: var(--fs, 1rem);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--fs);
 }
 
-.button-container{
+.navbar .navbar-brand {
+    color: #fff;
+    text-decoration: none;
+    font-size: var(--fs-x1-5);
+}
+
+/********************* Button *********************/
+.button-container {
     width: 12vw;
     display: flex;
     flex-direction: column;
     float: right;
     position: relative;
-    top: 56px;   
+    top: 56px;
     margin-left: 0.5em;
 }
-.button-container > * + *{
+
+.button-container>*+* {
     margin-top: 0.5em;
 }
 
-#img-edit{
+.button-idea {
+    background-color: transparent;
+    border: 1px solid #333;
+    border-radius: 0.2rem;
+    cursor: pointer;
+}
+
+.button-idea:hover {
+    background-color: #333;
+    color: #fff;
+}
+.link-container{
+    text-decoration: none;
+    color: #333;
+}
+.button-edit{
+    padding: 0.5rem 1rem;
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+}
+/********************* Card *********************/
+.container-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    border-radius: 0.5em;
+    padding: 2em;
+    box-shadow: 6px 6px 14px -6px rgba(0, 0, 0, 0.62);
+    margin-bottom: 5em;
+}
+
+.card-idea{
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    max-width: 18rem;
+    overflow: hidden;
+}
+
+.card-img{
+    max-height: 300px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card-padding{
+    padding: var(--fs, 1rem) var(--fs, 1rem);
+}
+
+.card-border{
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.card-idea ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-idea h5{
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+/********************* Form *********************/
+#img-edit {
     width: 12vw;
     display: block;
 }
 
-.contain-card{
-    border-radius: 0.5em;
-    padding: 2em;
-    box-shadow: 6px 6px 14px -6px rgba(0,0,0,0.62);
-    margin-bottom: 5em;
-}
-
-#form-edit, #form-signup{
+#form-edit,
+#form-signup {
     display: flow-root;
 }
 
-.like, .dislike{
+.form-group input{
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+}
+
+input[type="submit"]{
+    background-color: #333;
+    color: #fff;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+/********************* SVG *********************/
+.like,
+.dislike {
     width: 40px;
     height: 40px;
 }
 
-.like .c{
+.like .c {
     stroke: #00264C;
 }
 
-.like .c.active{
+.like .c.active {
     fill: #00264C;
 }
 
-.dislike .c{
+.dislike .c {
     stroke: #e03318;
 }
 
-.dislike .c.active{
+.dislike .c.active {
     fill: #e03318;
 }
 
 
-.dislike{
+.dislike {
     transform: rotate(180deg);
 }

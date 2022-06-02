@@ -23,45 +23,4 @@ if (isset($_POST['submitAuth'])) {
     header('Location: home.php');
 
 }
-
 ?>
-<!-- 
-<!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-</head>
-
-<body>
-    <br />
-    <div class="container">
-        <h2 align="center">Exercice form inscription</h2>
-        <br />
-        <div class="col-md-6" style="margin:0 auto; float:none;">
-            <form method="post">
-                <h3 align="center">Login</h3>
-                <br />
-                <?php //echo $error; 
-                ?>
-                <div class="form-group">
-                    <label>Enter votre pseudo</label>
-                    <input type="text" name="pseudo" placeholder="pseudo" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label>Confirmer votre mot de passe</label>
-                    <input type="password" name="mdp" class="form-control" placeholder="Mot de passe" />
-                </div>
-                <div>
-                    <input type="checkbox" name="remember_me" id="remember_me" value="">
-                    <label for="remmber_me">Remember me</label>
-                </div>
-                <div class="form-group" align="center">
-                    <input type="submit" name="submit" class="btn btn-info" value="Submit" />
-                </div>
-            </form>
-        </div>
-    </div>
-</body>
-
-</html> -->

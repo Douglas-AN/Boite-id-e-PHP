@@ -20,7 +20,7 @@ if (isset($_GET["id"]) && isset($_SESSION['id'])) {
 ?>
             <form method="post" id="form-edit" class="contain-card">
                 <p><?php echo $_SESSION['prenom']; $_SESSION['nom']; ?></p>
-                <p><?php echo $objIdea->Date ?></p>
+                <p><?php echo $objIdea->Date->date ?></p>
                 <div class="form-group">
                     <label>Titre de l'idée</label>
                     <input type="text" name="titre" value="<?php echo $objIdea->Title ?>" class="form-control" />

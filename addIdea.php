@@ -1,13 +1,9 @@
 <?php
 include 'header.php';
 
-//session_start();
-
 $error = '';
 $titre = '';
 $description = '';
-// $pseudo = '';
-// $image = '';
 $date = new DateTime();
 
 function clean_text($string)
@@ -35,7 +31,6 @@ if (isset($_POST["submit"])) {
     }
 
     // check file input
-
     $uploadDirectory = "uploads/";
 
     $errors = []; // Store errors here
@@ -74,12 +69,13 @@ if (isset($_POST["submit"])) {
     }
     // end check file input
 
-    // Add data into $App
+    // Add data into $App->TabIdea
     $objIdea = new Idea();
     $objIdea->Title = $titre;
     $objIdea->Text = $description;
     $objIdea->Image = $uploadPath;
     $objIdea->Date = $date;
+    $objIdea->User = $_SESSION['id'];
 
     $App->addIdea($objIdea);
     $App->SaveJson();
@@ -92,7 +88,6 @@ if (isset($_POST["submit"])) {
 <div class="container">
     <form method="post" id="form-signup" class="contain-card" enctype="multipart/form-data">
         <?php echo $error; ?>
-        <!-- <input type="hidden" name="pseudo" value=""> -->
         <div class="form-group">
             <label>Titre de l'idée</label>
             <input type="text" name="titre" placeholder="Titre" class="form-control" value="<?php echo (isset($_POST['submit'])) ? $titre : ''; ?>" />

@@ -61,6 +61,7 @@ class Idea
 	public $Text = "";
 	public $Image = "";
 	public $Date = "";
+	public $User = "";
 	public $UserVote = array();
 }
 
