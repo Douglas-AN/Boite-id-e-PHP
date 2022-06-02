@@ -22,7 +22,6 @@ document.querySelector("#logout").addEventListener('click', function () {
 });
 
 
-
 // Add Idea
 document.querySelector("#addIdea").addEventListener('click', function () {
     window.location.href = 'addIdea.php';

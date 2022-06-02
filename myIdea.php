@@ -1,33 +1,5 @@
 <?php
 include 'header.php';
-
-// function find_user($filename, $pseudo)
-// {
-//     $f = fopen($filename, "r");
-//     $result = false;
-//     $row = fgetcsv($f);
-//     print_r($row);
-//     while ($row[1] == $pseudo) {
-
-//         $result = array($row[0], $row[2], $row[3]);
-//     //     if ($row[1] == $pseudo) {
-
-//     //         break;
-//     //     }
-//     }
-//     fclose($f);
-//     return $result;
-// }
-
-// $f_pointer=fopen("idea.csv","r"); // file pointer
-
-// while(! feof($f_pointer)){
-// $ar=fgetcsv($f_pointer);
-// echo print_r($ar); // print the array 
-// echo "<br>";
-// }
-
-//print_r(find_user("idea.csv", $_SESSION['pseudo']));
 ?>
 <h1>Mes Idées</h1>
 

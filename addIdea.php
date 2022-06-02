@@ -7,7 +7,7 @@ $error = '';
 $titre = '';
 $description = '';
 // $pseudo = '';
-$image = '';
+// $image = '';
 $date = new DateTime();
 
 function clean_text($string)
@@ -33,36 +33,64 @@ if (isset($_POST["submit"])) {
     } else {
         $description = clean_text($_POST["description"]);
     }
-    if (empty($_POST["image"])) {
-        $error .= '<p><label class="text-danger">Il manque l\'url de l\'image</label></p>';
-    } else {
-        $image = clean_text($_POST["image"]);
-    }
-    // if (empty($_POST["pseudo"])) {
-    //     $error .= '<p><label class="text-danger">Vous n\'êtes pas connecté</label></p>';
-    // } else {
-    //     $pseudo = clean_text($_POST["pseudo"]);
-    // }
 
+    // check file input
+
+    $uploadDirectory = "uploads/";
+
+    $errors = []; // Store errors here
+
+    $fileExtensionsAllowed = ['jpeg', 'jpg', 'png']; // These will be the only file extensions allowed 
+
+    $fileName = $_FILES['fileToUpload']['name'];
+    $fileSize = $_FILES['fileToUpload']['size'];
+    $fileTmpName  = $_FILES['fileToUpload']['tmp_name'];
+    $fileType = $_FILES['fileToUpload']['type'];
+    $tmp = explode('.', $fileName);
+    $fileExtension = end($tmp);
+
+    $uploadPath = $uploadDirectory . basename($fileName);
+
+    if (!in_array($fileExtension, $fileExtensionsAllowed)) {
+        $errors[] = "This file extension is not allowed. Please upload a JPEG or PNG file";
+    }
+
+    if ($fileSize > 4000000) {
+        $errors[] = "File exceeds maximum size (4MB)";
+    }
+
+    if (empty($errors)) {
+        $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
+
+        if ($didUpload) {
+            echo "Le fichier " . basename($fileName) . " à bien été enregistré";
+        } else {
+            echo "An error occurred. Please contact the administrator.";
+        }
+    } else {
+        foreach ($errors as $error) {
+            echo $error . "These are the errors" . "\n";
+        }
+    }
+    // end check file input
+
+    // Add data into $App
     $objIdea = new Idea();
     $objIdea->Title = $titre;
     $objIdea->Text = $description;
-    $objIdea->Image = $image;
+    $objIdea->Image = $uploadPath;
     $objIdea->Date = $date;
 
     $App->addIdea($objIdea);
     $App->SaveJson();
 
-    if ($error == '' || isset($pseudo)) {
-        //$id_session = session_id();
-    }
     header('Location: home.php');
 }
 ?>
 
 <h1>Ajouter une idée</h1>
 <div class="container">
-    <form method="post" id="form-signup" class="contain-card">
+    <form method="post" id="form-signup" class="contain-card" enctype="multipart/form-data">
         <?php echo $error; ?>
         <!-- <input type="hidden" name="pseudo" value=""> -->
         <div class="form-group">
@@ -75,7 +103,7 @@ if (isset($_POST["submit"])) {
         </div>
         <div class="form-group">
             <label>Ajouter une image</label>
-            <input type="text" name="image" class="form-control" placeholder="Url de l'image" value="<?php echo (isset($_POST['submit'])) ? $image : ''; ?>" />
+            <input type="file" name="fileToUpload" class="form-control" placeholder="Url de l'image" />
         </div>
         <div class="form-group" align="center">
             <input type="submit" name="submit" class="btn btn-info" value="Poster" />
